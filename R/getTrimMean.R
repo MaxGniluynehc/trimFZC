@@ -27,7 +27,6 @@ getTrimMean <- function(n=1000, N=5000, mu=0, sigma=1, tr=0) {
   return(mu_hats)
 }
 
-# I added a new line
 
 
 
