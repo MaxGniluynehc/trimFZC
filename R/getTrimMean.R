@@ -16,8 +16,19 @@
 #' @return A vector of trimmed sample means of size `N`. If `tr` is set as 0, it effectively
 #' returns the untrimmed mean.
 #'
+#' @examples
+#' # Directly get a vector of trimmed sample means of size `N`.
+#' getTrimMean()
+#'
+#'
 #' @export
 getTrimMean <- function(n=1000, N=5000, mu=0, sigma=1, tr=0) {
+  testthat::expect_true(all(is.numeric(n), is.numeric(mu), is.numeric(sigma), is.numeric(tr), is.numeric(N)),
+                        info = "The sample size (n), grounding true mean (mu), groudning true standard deviation (sigma),
+                        and trim ratio (tr) and number of simulations (N) all have to take numerical values!")
+  testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr), length(N)) != 1), 0,
+                         info = "The sample size (n), grounding true mean (mu), groudning true standard deviation (sigma),
+                        and trim ratio (tr) and number of simulations (N) all have to take single numerical value!")
   mu_hats = c()
   for (i in 1:N) {
     y = rnorm(n, mu, sigma)

@@ -5,18 +5,42 @@
 #'
 #' @param plot_type takes values from ["boxplot", "MCSE", "EmpVar", "QQplot", "ECDF"]
 #' @param n sample size of each simulation
-#' @param mu The grounding true mean of the Normal distribution. A float. Default to 0.
+#' @param mu The grounding true mean of the Normal distribution. A float.
 #' @param sigma The grounding true standard deviation of the Normal distribution.
-#' A float. Default to 1.
+#' A float.
 #' @param tr The trim ratio, the proportion of the sample is chopped off as extreme values.
-#' A float. Default to 0.
-#' @param N The nunber of repeated simulations. An integer. Default to 5000.
+#' A float.
+#' @param N The nunber of repeated simulations. An integer.
 #'
-#' @return plot
+#' @examples
+#' # Suppose we want to analyze on the effect of sample size on the efficiency of the
+#' # trimmed mean estimates.
+#' mu = 0
+#' sigma = 5
+#' n = seq(50, 1000, by=100) # sample size (the parameter that varies)
+#' N = 5000 # number of simulations
+#' tr = 0.2 # trim ratio
+#'
+#' # Plot boxplot
+#' plotter("boxplot", n, mu, sigma, tr, N)
+#'
+#' # Plot Monte Carlo Simulation Error (MCSE) against the parameter that varies
+#' plotter("MCSE", n, mu, sigma, tr, N)
+#'
+#' # Plot Empirical Variance (EmpVar) against the parameter that varies
+#' plotter("EmpVar", n, mu, sigma, tr, N)
+#'
+#'
+#' # For pairwise comparisons, suppose we want to compare the tr = 0.2 vs tr = 0,
+#' # holding all other parameters fixed.
+#'
+#' # Plot QQplot
+#' plotter("QQplot", n=500, mu, sigma, tr=c(0.2, 0), N)
+#'
+#' # Plot Empirical Cumulative Distribution Function (ECDF)
+#' plotter("QQplot", n=500, mu, sigma, tr=c(0.2, 0), N)
 #'
 #' @export
-
-# library(testthat)
 
 plotter <- function(plot_type, n, mu, sigma, tr, N) {
   # All the tests:

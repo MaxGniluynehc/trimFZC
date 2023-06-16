@@ -11,20 +11,46 @@ plotter(plot_type, n, mu, sigma, tr, N)
 
 \item{n}{sample size of each simulation}
 
-\item{mu}{The grounding true mean of the Normal distribution. A float. Default to 0.}
+\item{mu}{The grounding true mean of the Normal distribution. A float.}
 
 \item{sigma}{The grounding true standard deviation of the Normal distribution.
-A float. Default to 1.}
+A float.}
 
 \item{tr}{The trim ratio, the proportion of the sample is chopped off as extreme values.
-A float. Default to 0.}
+A float.}
 
-\item{N}{The nunber of repeated simulations. An integer. Default to 5000.}
-}
-\value{
-plot
+\item{N}{The nunber of repeated simulations. An integer.}
 }
 \description{
 `plotter()` can plot the boxplot, Monte Carlo Simulation Error (MCSE), Empirical Variance
 (EmpVar), QQplot, and Empirical Cummulative Distribution Function (ECDF).
+}
+\examples{
+# Suppose we want to analyze on the effect of sample size on the efficiency of the
+# trimmed mean estimates.
+mu = 0
+sigma = 5
+n = seq(50, 1000, by=100) # sample size (the parameter that varies)
+N = 5000 # number of simulations
+tr = 0.2 # trim ratio
+
+# Plot boxplot
+plotter("boxplot", n, mu, sigma, tr, N)
+
+# Plot Monte Carlo Simulation Error (MCSE) against the parameter that varies
+plotter("MCSE", n, mu, sigma, tr, N)
+
+# Plot Empirical Variance (EmpVar) against the parameter that varies
+plotter("EmpVar", n, mu, sigma, tr, N)
+
+
+# For pairwise comparisons, suppose we want to compare the tr = 0.2 vs tr = 0,
+# holding all other parameters fixed.
+
+# Plot QQplot
+plotter("QQplot", n=500, mu, sigma, tr=c(0.2, 0), N)
+
+# Plot Empirical Cumulative Distribution Function (ECDF)
+plotter("QQplot", n=500, mu, sigma, tr=c(0.2, 0), N)
+
 }
