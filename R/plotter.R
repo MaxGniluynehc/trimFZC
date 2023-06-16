@@ -20,20 +20,20 @@
 
 plotter <- function(plot_type, n, mu, sigma, tr, N) {
   # All the tests:
-  expect_true(plot_type %in% c("boxplot", "MCSE", "EmpVar", "QQplot", "ECDF"),
+  testthat::expect_true(plot_type %in% c("boxplot", "MCSE", "EmpVar", "QQplot", "ECDF"),
               info = "Wrong plot_type! plot_type has to be one of ['boxplot', 'MCSE', 'EmpVar', 'QQplot', 'ECDF']. ")
-  expect_true(N == round(N), info = "The number of simulations (N) has to be an integer!")
+  testthat::expect_true(N == round(N), info = "The number of simulations (N) has to be an integer!")
 
-  expect_true(all(is.numeric(n), is.numeric(mu), is.numeric(sigma), is.numeric(tr)),
+  testthat::expect_true(all(is.numeric(n), is.numeric(mu), is.numeric(sigma), is.numeric(tr)),
               info = "The sample size (n), grounding true mean (mu), groudning true standard deviation (sigma),
               and trim ratio (tr) all have to take numerical values!")
   if (! plot_type %in% c("QQplot", "ECDF")){
-    expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) != 1), 1,
+    testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) != 1), 1,
                 info = "If not plotting boxplot, MCSE or EmpVar, then exactly one of the sample size (n), grounding true mean (mu),
                 groudning true standard deviation (sigma), and trim ratio (tr) has to take a vector of length larger than 1.")
   }
   else{
-    expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) == 2), 1,
+    testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) == 2), 1,
                  info = "If plotting QQplot or ECDF, then exactly one of the sample size (n), grounding true mean (mu),
                  groudning true standard deviation (sigma), and trim ratio (tr) has to take a vector of length 2.")
   }
@@ -141,7 +141,6 @@ plotter <- function(plot_type, n, mu, sigma, tr, N) {
   }
 
 }
-
 
 
 
