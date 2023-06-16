@@ -29,3 +29,9 @@ returns the untrimmed mean.
 from a Normal distribution with mean `mu` and standard deviation `sigma`. The trimmed
 sample is obtained by chopping off the `tr` portion of the extreme values in a sample.
 }
+\examples{
+# Directly get a vector of trimmed sample means of size `N`.
+getTrimMean()
+
+
+}
