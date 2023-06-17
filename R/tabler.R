@@ -24,7 +24,7 @@
 #' @export
 
 
-tabler <- function(n ,mu, sigma, tr, N=15000) {
+tabler <- function(n ,mu, sigma, tr, N=15000, to_kable=F) {
   testthat::expect_true(all(length(n) >=1, length(mu)>=1, length(sigma)>=1, length(tr)>=1),
                         info = "Exactly one of the sample size (n), grounding true mean (mu),
                         groudning true standard deviation (sigma), and trim ratio (tr) has to take a vector of length larger than 1.")
@@ -59,6 +59,9 @@ tabler <- function(n ,mu, sigma, tr, N=15000) {
   colnames(tab) = c("Bias", "EmpVar", "MCSE")
   rownames(tab) = paste(pname_var, "=", params[, pname_var], sep = "")
 
+  if (to_kable){
+    print(knitr::kable(data.frame(tab)))
+  }
   return(data.frame(tab))
 }
 

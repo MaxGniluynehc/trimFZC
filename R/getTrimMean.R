@@ -22,7 +22,8 @@
 #'
 #'
 #' @export
-getTrimMean <- function(n=1000, N=5000, mu=0, sigma=1, tr=0) {
+
+getTrimMean <- function(n=1000, N=5000, mu=0, sigma=1, tr=0, random.seed=20230615) {
   testthat::expect_true(all(is.numeric(n), is.numeric(mu), is.numeric(sigma), is.numeric(tr), is.numeric(N)),
                         info = "The sample size (n), grounding true mean (mu), groudning true standard deviation (sigma),
                         trim ratio (tr) and number of simulations (N) all have to take numerical values!")
@@ -34,7 +35,7 @@ getTrimMean <- function(n=1000, N=5000, mu=0, sigma=1, tr=0) {
                         cannot take 0 or negative numbers!")
   testthat::expect_true(all(tr >= 0),
                         info= "Trim ratio (tr) cannot take negative numbers!")
-
+  set.seed(random.seed)
   mu_hats = c()
   for (i in 1:N) {
     y = rnorm(n, mu, sigma)

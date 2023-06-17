@@ -169,3 +169,4 @@ plotter <- function(plot_type, n, mu, sigma, tr, N) {
 
 
 
+

@@ -4,7 +4,14 @@
 \alias{getTrimMean}
 \title{Compute the trimmed mean of a sample from Normal distribution}
 \usage{
-getTrimMean(n = 1000, N = 5000, mu = 0, sigma = 1, tr = 0)
+getTrimMean(
+  n = 1000,
+  N = 5000,
+  mu = 0,
+  sigma = 1,
+  tr = 0,
+  random.seed = 20230615
+)
 }
 \arguments{
 \item{n}{The size of a single simulation sampled from the Normal distribution.

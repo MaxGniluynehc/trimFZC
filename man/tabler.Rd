@@ -4,7 +4,7 @@
 \alias{tabler}
 \title{Tabler Function}
 \usage{
-tabler(n, mu, sigma, tr, N = 15000)
+tabler(n, mu, sigma, tr, N = 15000, to_kable = F)
 }
 \arguments{
 \item{n}{sample size of each simulation}
