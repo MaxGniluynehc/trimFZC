@@ -26,6 +26,8 @@ A float. Default to 1.}
 
 \item{tr}{The trim ratio, the proportion of the sample is chopped off as extreme values.
 A float. Default to 0.}
+
+\item{random.seed}{Set a random seed.}
 }
 \value{
 A vector of trimmed sample means of size `N`. If `tr` is set as 0, it effectively

@@ -15,6 +15,7 @@
 #' @param tr The trim ratio, the proportion of the sample is chopped off as extreme values.
 #' A float.
 #' @param N The number of repeated simulations. An integer. Default as 15000.
+#' @param random.seed Set a random seed.
 #'
 #' @examples
 #' To obtain a table of bias, EmpVar and MCSE corresponding to various trim ratios:
@@ -24,7 +25,7 @@
 #' @export
 
 
-tabler <- function(n ,mu, sigma, tr, N=15000, to_kable=F) {
+tabler <- function(n ,mu, sigma, tr, N=15000, to_kable=F, random.seed = 20230615) {
   testthat::expect_true(all(length(n) >=1, length(mu)>=1, length(sigma)>=1, length(tr)>=1),
                         info = "Exactly one of the sample size (n), grounding true mean (mu),
                         groudning true standard deviation (sigma), and trim ratio (tr) has to take a vector of length larger than 1.")
@@ -45,7 +46,7 @@ tabler <- function(n ,mu, sigma, tr, N=15000, to_kable=F) {
   EmpVar_list = c()
   iters = nrow(params)
   for (i in 1:iters){
-    mu_hats = getTrimMean(n=params[i,1], N=N, mu=params[i,2], sigma=params[i,3], tr=params[i,4])
+    mu_hats = getTrimMean(n=params[i,1], N=N, mu=params[i,2], sigma=params[i,3], tr=params[i,4], random.seed = random.seed)
     # mu_hats_list = cbind(mu_hats_list, mu_hats)
     bias_list = append(bias_list, mean(mu_hats - mu))
 

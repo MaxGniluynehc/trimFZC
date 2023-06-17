@@ -12,6 +12,7 @@
 #' A float. Default to 1.
 #' @param tr The trim ratio, the proportion of the sample is chopped off as extreme values.
 #' A float. Default to 0.
+#' @param random.seed Set a random seed.
 #'
 #' @return A vector of trimmed sample means of size `N`. If `tr` is set as 0, it effectively
 #' returns the untrimmed mean.

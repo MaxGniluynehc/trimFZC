@@ -4,7 +4,7 @@
 \alias{plotter}
 \title{Plotter Function}
 \usage{
-plotter(plot_type, n, mu, sigma, tr, N)
+plotter(plot_type, n, mu, sigma, tr, N, random.seed = 20230615)
 }
 \arguments{
 \item{plot_type}{takes values from ["boxplot", "MCSE", "EmpVar", "QQplot", "ECDF"]}
@@ -20,6 +20,8 @@ A float.}
 A float.}
 
 \item{N}{The nunber of repeated simulations. An integer.}
+
+\item{random.seed}{Set a random seed.}
 }
 \description{
 `plotter()` can plot the boxplot, Monte Carlo Simulation Error (MCSE), Empirical Variance

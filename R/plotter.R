@@ -11,6 +11,7 @@
 #' @param tr The trim ratio, the proportion of the sample is chopped off as extreme values.
 #' A float.
 #' @param N The nunber of repeated simulations. An integer.
+#' @param random.seed Set a random seed.
 #'
 #' @examples
 #' # Suppose we want to analyze on the effect of sample size on the efficiency of the
@@ -42,7 +43,7 @@
 #'
 #' @export
 
-plotter <- function(plot_type, n, mu, sigma, tr, N) {
+plotter <- function(plot_type, n, mu, sigma, tr, N, random.seed=20230615) {
   # All the tests:
   testthat::expect_true(plot_type %in% c("boxplot", "MCSE", "EmpVar", "QQplot", "ECDF"),
               info = "Wrong plot_type! plot_type has to be one of ['boxplot', 'MCSE', 'EmpVar', 'QQplot', 'ECDF']. ")
@@ -78,7 +79,7 @@ plotter <- function(plot_type, n, mu, sigma, tr, N) {
     EmpVar_list = c()
     iters = nrow(params)
     for (i in 1:iters){
-      mu_hats = getTrimMean(n=params[i,1], N=N, mu=params[i,2], sigma=params[i,3], tr=params[i,4])
+      mu_hats = getTrimMean(n=params[i,1], N=N, mu=params[i,2], sigma=params[i,3], tr=params[i,4], random.seed = random.seed)
       mu_hats_list = cbind(mu_hats_list, mu_hats)
 
       EmpVar = var(mu_hats)
@@ -143,7 +144,7 @@ plotter <- function(plot_type, n, mu, sigma, tr, N) {
     mu_hats_list = c()
     iters = nrow(params)
     for (i in 1:iters){
-      mu_hats = getTrimMean(n=params[i,1], N=N, mu=params[i,2], sigma=params[i,3], tr=params[i,4])
+      mu_hats = getTrimMean(n=params[i,1], N=N, mu=params[i,2], sigma=params[i,3], tr=params[i,4], random.seed = random.seed)
       mu_hats_list = cbind(mu_hats_list, mu_hats)
     }
     colnames(mu_hats_list) = paste(pname_var, "=", params[, pname_var], sep = "")

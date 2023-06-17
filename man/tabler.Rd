@@ -4,7 +4,7 @@
 \alias{tabler}
 \title{Tabler Function}
 \usage{
-tabler(n, mu, sigma, tr, N = 15000, to_kable = F)
+tabler(n, mu, sigma, tr, N = 15000, to_kable = F, random.seed = 20230615)
 }
 \arguments{
 \item{n}{sample size of each simulation}
@@ -18,6 +18,8 @@ A float.}
 A float.}
 
 \item{N}{The number of repeated simulations. An integer. Default as 15000.}
+
+\item{random.seed}{Set a random seed.}
 }
 \description{
 `tabler()` can output a table with the bias, Empirical Variance (EmpVar) and Monte Carlo Simulation Error (MCSE)
