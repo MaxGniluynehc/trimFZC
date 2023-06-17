@@ -1,0 +1,134 @@
+---
+title: "Introdunction to `trimFZC` R package "
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    toc_depth: 3
+  pdf_document:
+    toc: TRUE
+    toc_depth: 3
+    citation_package: natbib
+bibliography: references.bib
+# biblio-style: apalike
+vignette: >
+  %\VignetteIndexEntry{Introduction `trimFZC` R package}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72 
+---
+In this document, we illustrate the main features of the `trimFZC` R package through examples. The main goal of this package is to perform analysis on trimmed mean estimate of normal distribution. 
+
+## Brief Introduction to Trimmed Mean Estimate
+
+The trimmed mean is defined as the average of observations remaining after a fixed number of outlying observations have been removed [@trimmed], which allows the estimators to be less sensitive to outliers. For example, consider a data set of 10 numbers, [4, 7, 2, 9, 6, 8, 1, 5, 3, 7], a trimmed mean estimate with a trimming percentage of 20% can be obtained via calculating the mean of the remaining data after dropping the highest and lowest 20% of the observations. 
+
+
+
+## Introduction to `trimFZC` R package
+
+
+### Overview
+
+The main function `getTrimMean()` computes the trimmed sample means of `N` simulations (each of size `n`) from a Normal distribution with mean `mu` and standard deviation `sigma`. We also provide plot function `plotter` to visually display various results. `tabler` function can summarize the results into a well-organized table, including bias, Empirical Variance (EmpVar) and Monte Carlo Simulation Error (MCSE). 
+
+
+### Basic example of compute the trimmed mean
+
+#### Installation
+First, install and load the R package. 
+```{r warning=FALSE}
+library(devtools)
+install_github("MaxGniluynehc/trimFZC",
+               ref="master",
+               auth_token = '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')
+
+library(trimFZC)
+```
+
+Now, we can directly use the `getTrimMean` function to compute the trimmed sample means from a normal distribution when doing simulations for many times. 
+
+The argument `n` indicates the sample size from the Normal distribution, `N` indicates the number of simulation times, `mu` and `sigma` respectively represent the mean and standard deviation parameters of the normal distribution, `tr` indicates the proportion of the sample is chopped off as extreme values, `random.seed` indicates the seed for random number generation.
+
+
+The function will return a list of trimmed estimates with length `N`. 
+
+
+```{r}
+n <- 1000
+N <- 5000
+mu <- 0
+sigma <- 1
+tr <- 0.2
+seed <- 1234
+trim.mean <- getTrimMean(n = n, N = N, mu = mu, sigma = sigma, tr = tr, random.seed = seed)
+head(trim.mean)
+```
+
+
+
+### Basic examples of visualizing the efficiency of the trimmed mean estimates using `plotter`
+
+`plotter` function can help to visualize various results. The input arguments are almost same as the previous `getTrimMean()` function. The only difference comes from one additional argument `plot_type` which takes values from ["boxplot", "MCSE", "EmpVar", "QQplot", "ECDF"]. 
+
+
+
+#### Simple example of visualization using side-by-side boxplot
+
+Suppose we want to investigate how sample size will influence the efficiency of the trimmed mean estimates.
+
+It can visualize differences in efficiency of the trimmed mean estimates when sample size varies using side-by-side boxplot. 
+
+```{r}
+n <- seq(50, 1000, by=100)
+plotter("boxplot", n, mu, sigma, tr, N, seed)
+```
+
+#### Simple example of visualizing Monte Carlo Simulation Error and Empirical Variance
+
+If we are still interested in examining the effect of sample size, it can also help to display Monte Carlo Simulation Error (MCSE) and Empirical Variance (EmpVar) against varying sample size. 
+
+The formula of computing Monte Carlo Simulation Error (MCSE) is from @morris2019using using
+
+$$MCSE = \sqrt{\frac{{\text{Emp Var}}}{2\cdot (n_{\text{sim}} - 1)}},$$
+where $\text{Emp Var}$ is the values of Empirical Variance and $n_{\text{sim}}$ is the number of simulation times. 
+
+
+```{r}
+n <- seq(50, 1000, by=100)
+plotter("MCSE", n, mu, sigma, tr, N, seed)
+```
+
+Note that in Emp Var plot, the blue dashed line corresponds to the level of empirical variance, such that the MCSE is 2e-04.
+
+```{r}
+plotter("EmpVar", n, mu, sigma, tr, N, seed)
+```
+
+#### Simple example of comparing empirical distribution using QQ-plot and ECDF
+
+It supports pairwise comparison in the empirical distribution of trimmed mean estimates using QQ-plot and empirical cumulative distribution function(ECDF). 
+
+Suppose we want to compare the empirical distribution of trimmed mean estimates with trimmed proportion 0.2 and untrimmed ones. We can visualize this comparison using either QQ-plot or ECDF. 
+
+
+
+```{r}
+n <- 500
+plotter("QQplot", n, mu , sigma , tr=c(0.2, 0), N, seed)
+plotter("ECDF", n, mu , sigma, tr=c(0.2, 0), N, seed)
+```
+
+### Basic examples of summarizing results using `tabler`
+
+`tabler` function is used to provide a table summary of results, including bias, Empirical Variance (EmpVar) and Monte Carlo Simulation Error (MCSE). The input argument is exactly same as the previous `getTrimMean()` function. 
+
+```{r warning=FALSE}
+tab <- tabler(n, mu, sigma, seq(0,0.5, by=0.025), seed)
+knitr::kable(tab, "markdown", digits = 4)
+```
