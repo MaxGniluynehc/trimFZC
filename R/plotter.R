@@ -128,27 +128,28 @@ plotter <- function(plot_type, n, mu, sigma, tr, N) {
   }
 
   else{
+    params = cbind(n, mu, sigma, tr)
+    pml = apply(params, 2, function(x){return(length(unique(x)))})
+    pname_var = names(pml)[which.max(pml)]
+
+    lgd = ""
+    pnames = c("n", "mu", "sigma", "tr")
+    for (i in 1:length(pnames)){
+      if (pnames[i] != pname_var){
+        lgd = paste(lgd, " ", pnames[i], "=", unique(params[,i]), sep="")
+      }
+    }
+
+    mu_hats_list = c()
+    iters = nrow(params)
+    for (i in 1:iters){
+      mu_hats = getTrimMean(n=params[i,1], N=N, mu=params[i,2], sigma=params[i,3], tr=params[i,4])
+      mu_hats_list = cbind(mu_hats_list, mu_hats)
+    }
+    colnames(mu_hats_list) = paste(pname_var, "=", params[, pname_var], sep = "")
+
+
     if (plot_type =="QQplot"){
-      params = cbind(n, mu, sigma, tr)
-      pml = apply(params, 2, function(x){return(length(unique(x)))})
-      pname_var = names(pml)[which.max(pml)]
-
-      lgd = ""
-      pnames = c("n", "mu", "sigma", "tr")
-      for (i in 1:length(pnames)){
-        if (pnames[i] != pname_var){
-          lgd = paste(lgd, " ", pnames[i], "=", unique(params[,i]), sep="")
-        }
-      }
-
-      mu_hats_list = c()
-      iters = nrow(params)
-      for (i in 1:iters){
-        mu_hats = getTrimMean(n=params[i,1], N=N, mu=params[i,2], sigma=params[i,3], tr=params[i,4])
-        mu_hats_list = cbind(mu_hats_list, mu_hats)
-      }
-      colnames(mu_hats_list) = paste(pname_var, "=", params[, pname_var], sep = "")
-
       qqplot(mu_hats_list[,1], mu_hats_list[,2], main=lgd,
              xlab=colnames(mu_hats_list)[1], ylab=colnames(mu_hats_list)[2], cex.lab=1.5)
       abline(a=0, b=1, col=2)
