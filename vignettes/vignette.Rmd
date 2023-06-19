@@ -128,7 +128,15 @@ plotter("ECDF", n, mu , sigma, tr=c(0.2, 0), N, seed)
 
 `tabler` function is used to provide a table summary of results, including bias, Empirical Variance (EmpVar) and Monte Carlo Simulation Error (MCSE). The input argument is exactly same as the previous `getTrimMean()` function. 
 
-```{r warning=FALSE}
-tab <- tabler(n, mu, sigma, seq(0,0.5, by=0.025), seed)
-knitr::kable(tab, "markdown", digits = 4)
-```
+# ```{r warning=FALSE}
+# tab <- tabler(n=n, mu=mu, sigma=sigma, tr=seq(0,0.5, by=0.025), to_kable=T, random.seed=seed)
+# # knitr::kable(tab, "markdown", digits = 4)
+# ```
+
+ <!-- ================================ Section 2 ======================================= -->
+
+
+
+ <!-- ================================ Section 3 testing ================================ -->
+
+

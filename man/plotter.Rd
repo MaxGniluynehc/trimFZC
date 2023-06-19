@@ -4,28 +4,53 @@
 \alias{plotter}
 \title{Plotter Function}
 \usage{
-plotter(plot_type, n, mu, sigma, tr, N, random.seed = 20230615)
+plotter(
+  plot_type,
+  n,
+  mu,
+  sigma,
+  tr,
+  N,
+  random.seed = 20230615,
+  ylim = NULL,
+  add_to_plot = F,
+  color = NULL,
+  linetype = NULL,
+  pchar = NULL
+)
 }
 \arguments{
-\item{plot_type}{takes values from ["boxplot", "MCSE", "EmpVar", "QQplot", "ECDF"]}
+\item{plot_type}{(Required, string) takes values from ["boxplot", "MCSE", "EmpVar", "EmpSE", "QQplot", "ECDF"]}
 
-\item{n}{sample size of each simulation}
+\item{n}{(Required, numeric) sample size of each simulation}
 
-\item{mu}{The grounding true mean of the Normal distribution. A float.}
+\item{mu}{(Required, numeric) The grounding true mean of the Normal distribution. A float.}
 
-\item{sigma}{The grounding true standard deviation of the Normal distribution.
-A float.}
+\item{sigma}{(Required, numeric) The grounding true standard deviation of the Normal distribution.}
 
-\item{tr}{The trim ratio, the proportion of the sample is chopped off as extreme values.
-A float.}
+\item{tr}{(Required, numeric) The trim ratio, the proportion of the sample is chopped off as extreme values.}
 
-\item{N}{The nunber of repeated simulations. An integer.}
+\item{N}{(Required, numeric) The nunber of repeated simulations. An integer.}
 
-\item{random.seed}{Set a random seed.}
+\item{random.seed}{(Optional, numeric) Set a random seed.}
+
+\item{ylim}{(Optional, numeric) Users can manually adjust the limit of y (vertical) axis. Takes a numeric vector of length 2
+denoting the upper and lower limit of the y axis.}
+
+\item{add_to_plot}{(Optional) Only applied to line plots, i.e,, when plot_type takes values from
+["MCSE", "EmpVar", "EmpSE"]. When set to TRUE, then plotter will draw a line on top of an existing plot.
+Default as FALSE.}
+
+\item{color}{(Optional, string) Only applied when add_to_plot == TRUE. Defines the color of the line. Default as NULL.}
+
+\item{linetype}{(Optional, numeric) Only applied when add_to_plot == TRUE. Defines the type of the line. Default as NULL.}
+
+\item{pchar}{(Optional, numeric) Only applied when add_to_plot == TRUE. Defines the point character on the line.
+Default as NULL.}
 }
 \description{
 `plotter()` can plot the boxplot, Monte Carlo Simulation Error (MCSE), Empirical Variance
-(EmpVar), QQplot, and Empirical Cummulative Distribution Function (ECDF).
+(EmpVar),Empirical Standard Deviation (EmpSE) QQplot, and Empirical Cummulative Distribution Function (ECDF).
 }
 \examples{
 # Suppose we want to analyze on the effect of sample size on the efficiency of the
@@ -54,5 +79,7 @@ plotter("QQplot", n=500, mu, sigma, tr=c(0.2, 0), N)
 
 # Plot Empirical Cumulative Distribution Function (ECDF)
 plotter("QQplot", n=500, mu, sigma, tr=c(0.2, 0), N)
+
+For more advanced examples, please see \code{vignette("vignette")}
 
 }
