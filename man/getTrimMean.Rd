@@ -42,5 +42,4 @@ sample is obtained by chopping off the `tr` portion of the extreme values in a s
 # Directly get a vector of trimmed sample means of size `N`.
 getTrimMean()
 
-
 }

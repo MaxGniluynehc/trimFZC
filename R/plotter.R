@@ -54,31 +54,30 @@
 
 plotter <- function(plot_type, n, mu, sigma, tr, N, random.seed=20230615, ylim=NULL,
                     add_to_plot=F, color=NULL, linetype=NULL, pchar=NULL){
-  # All the tests:
+  # Tests for invalid inputs:
   testthat::expect_true(plot_type %in% c("boxplot", "MCSE", "EmpVar", "EmpSE", "QQplot", "ECDF"),
-              info = "Wrong plot_type! plot_type has to be one of ['boxplot', 'MCSE', 'EmpVar', 'EmpSE', 'QQplot', 'ECDF']. ")
+              info = "Wrong plot_type! plot_type has to be one of
+              ['boxplot', 'MCSE', 'EmpVar', 'EmpSE', 'QQplot', 'ECDF']. ")
   testthat::expect_true(N == round(N), info = "The number of simulations (N) has to be an integer!")
-
   testthat::expect_true(all(is.numeric(n), is.numeric(mu), is.numeric(sigma), is.numeric(tr)),
-              info = "The sample size (n), grounding true mean (mu), groudning true standard deviation (sigma),
+              info = "The sample size (n), grounding true mean (mu),
+              groudning true standard deviation (sigma),
               and trim ratio (tr) all have to take numerical values!")
-  if (! plot_type %in% c("QQplot", "ECDF")){
-    testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) != 1), 1,
-                info = "If not plotting boxplot, MCSE or EmpVar, then exactly one of the sample size (n), grounding true mean (mu),
-                groudning true standard deviation (sigma), and trim ratio (tr) has to take a vector of length larger than 1.")
-  }
-  else{
-    testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) == 2), 1,
-                 info = "If plotting QQplot or ECDF, then exactly one of the sample size (n), grounding true mean (mu),
-                 groudning true standard deviation (sigma), and trim ratio (tr) has to take a vector of length 2.")
-  }
+  # if (! plot_type %in% c("QQplot", "ECDF")){
+  #   testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) != 1), 1,
+  #               info = "If plotting boxplot, MCSE, EmpVar or EmpSE against one parameter, then the
+  #               other 3 parameters have to be fixed as constant. So, exactly one of (n, mu, sigma, tr)
+  #               has to take a vector of length larger than 1, and the other arguments have to take
+  #               singular numerical values.")
+  # }
   # else{
-  #   expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) != 1), 0,
-  #                info = "If plotting ECDF, then all of the sample size (n), grounding true mean (mu),
-  #                groudning true standard deviation (sigma), and trim ratio (tr) have to take a single value.")
+  #   testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) == 2), 1,
+  #                info = "If plotting QQplot or ECDF, then exactly one of the (n, mu, sigma, tr)
+  #                has to take a vector of length 2.")
   # }
 
-  # Now the function:
+  # Now the function
+  # To plot the boxplot, MCSE, EmpVar and EmpSE
   if (plot_type %in% c("boxplot", "MCSE", "EmpVar", "EmpSE")){
     params = cbind(n, mu, sigma, tr)
     pml = apply(params, 2, function(x){return(length(unique(x)))})
@@ -172,10 +171,19 @@ plotter <- function(plot_type, n, mu, sigma, tr, N, random.seed=20230615, ylim=N
 
   }
 
+  # To plot the QQplot and ECDF
   else{
     params = cbind(n, mu, sigma, tr)
     pml = apply(params, 2, function(x){return(length(unique(x)))})
-    pname_var = names(pml)[which.max(pml)]
+
+    if (max(pml) != 1){
+      pname_var = names(pml)[which.max(pml)]
+    }
+    else{
+      pname_var = "tr"
+    }
+
+
     lgd = ""
     pnames = c("n", "mu", "sigma", "tr")
     for (i in 1:length(pnames)){
@@ -194,19 +202,31 @@ plotter <- function(plot_type, n, mu, sigma, tr, N, random.seed=20230615, ylim=N
 
 
     if (plot_type =="QQplot"){
-      qqplot(mu_hats_list[,1], mu_hats_list[,2], main=lgd, ylim=ylim,
-             xlab=colnames(mu_hats_list)[1],
-             ylab=colnames(mu_hats_list)[2], cex.lab=1.5)
-      abline(a=0, b=1, col=2)
+      if (iters != 1){
+        qqplot(mu_hats_list[,1], mu_hats_list[,2], main=lgd, ylim=ylim,
+               xlab=colnames(mu_hats_list)[1],
+               ylab=colnames(mu_hats_list)[2], cex.lab=1.5)
+        abline(a=0, b=1, col="red")
+      }
+      else{
+        qqnorm(y=mu_hats_list[,1], main=lgd, ylim=ylim,
+               ylab=colnames(mu_hats_list)[1],
+               xlab="Theoretical Quantiles (Normal)", cex.lab=1.5)
+        qqline(y=mu_hats_list[,1], col="red")
+      }
     }
 
     else if (plot_type =="ECDF"){
       plot(ecdf(mu_hats_list[,1]), main=lgd,
-           xlab="Mean", ylab = "ECDF(mean)", ylim=ylim,
-           cex.lab=1.5, col="black", cex.main=1.5)
-      lines(ecdf(mu_hats_list[,2]), col="red")
+           xlab="Value of (trimmed) mean estimate", ylab = "ECDF(mean)", ylim=c(0,1),
+           cex.lab=1.5, col=1, cex.main=1.5, pch=NULL)
+      if (iters > 1){
+        for (i in c(2:iters)){
+          lines(ecdf(mu_hats_list[,i]), col=i, lty=1)
+        }
+      }
       legend("bottomright", legend = colnames(mu_hats_list),
-             lty = 1, col=c("black", "red"), cex=1.2)
+             lty = 1, col=c(1:iters), cex=1.2)
     }
 
   }

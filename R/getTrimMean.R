@@ -21,16 +21,16 @@
 #' # Directly get a vector of trimmed sample means of size `N`.
 #' getTrimMean()
 #'
-#'
 #' @export
 
 getTrimMean <- function(n=1000, N=5000, mu=0, sigma=1, tr=0, random.seed=20230615) {
+  # Tests for invalid inputs:
   testthat::expect_true(all(is.numeric(n), is.numeric(mu), is.numeric(sigma), is.numeric(tr), is.numeric(N)),
                         info = "The sample size (n), grounding true mean (mu), groudning true standard deviation (sigma),
-                        trim ratio (tr) and number of simulations (N) all have to take numerical values!")
+                        trim ratio (tr) and number of simulations (N) all have to be numerical!")
   testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr), length(N)) != 1), 0,
                          info = "The sample size (n), grounding true mean (mu), groudning true standard deviation (sigma),
-                         trim ratio (tr) and number of simulations (N) all have to take single numerical value!")
+                         trim ratio (tr) and number of simulations (N) all have to take singlular numerical value!")
   testthat::expect_true(all(n > 0, N > 0, sigma > 0),
                         info= "The sample size (n), groudning true standard deviation (sigma) and number of simulations (N)
                         cannot take 0 or negative numbers!")
