@@ -1,5 +1,5 @@
 ---
-title: "Introdunction to `trimFZC` R package "
+title: "Introduction to `trimFZC` R package "
 output: 
   html_document:
     number_sections: true
@@ -14,7 +14,8 @@ output:
     toc_depth: 3
     citation_package: natbib
 bibliography: references.bib
-# biblio-style: apalike
+biblio-style: apalike
+reference-section-title: References
 vignette: >
   %\VignetteIndexEntry{Introduction `trimFZC` R package}
   %\VignetteEncoding{UTF-8}
@@ -60,8 +61,8 @@ First, install and load the R package.
 library(devtools)
 install_github("MaxGniluynehc/trimFZC",
                ref="master",
-               auth_token = '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')
-
+               auth_token = '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', 
+               build_vignettes = TRUE)
 library(trimFZC)
 ```
 

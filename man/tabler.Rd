@@ -18,12 +18,6 @@ tabler(n, mu, sigma, tr, N = 15000, random.seed = 20230615)
 \item{N}{(Required, numeric) The number of repeated simulations. An integer. Default as 15000.}
 
 \item{random.seed}{(Optional) Set a random seed.}
-
-\item{to_kable}{(Optional, Boolean) Whether to print the tabularized statistics using the knitr::kable().
-Default as False.}
-
-\item{degits}{(Optional, numeric) Number of digits to keep in the printed kable output. Only applied when
-to_kable is TRUE. Default as 4.}
 }
 \value{
 A datafrme containing the bias, EmpVar, EmpSE and MCSE.

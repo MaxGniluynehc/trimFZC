@@ -13,10 +13,6 @@
 #' @param sigma (Required, numeric) The grounding true standard deviation of the Normal distribution.
 #' @param tr (Required, numeric) The trim ratio, the proportion of the sample is chopped off as extreme values.
 #' @param N (Required, numeric) The number of repeated simulations. An integer. Default as 15000.
-#' @param to_kable (Optional, Boolean) Whether to print the tabularized statistics using the knitr::kable().
-#' Default as False.
-#' @param degits (Optional, numeric) Number of digits to keep in the printed kable output. Only applied when
-#' to_kable is TRUE. Default as 4.
 #' @param random.seed (Optional) Set a random seed.
 #'
 #' @examples
