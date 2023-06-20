@@ -26,16 +26,16 @@
 getTrimMean <- function(n=1000, N=5000, mu=0, sigma=1, tr=0, random.seed=20230615) {
   # Tests for invalid inputs:
   testthat::expect_true(all(is.numeric(n), is.numeric(mu), is.numeric(sigma), is.numeric(tr), is.numeric(N)),
-                        info = "The sample size (n), grounding true mean (mu), groudning true standard deviation (sigma),
-                        trim ratio (tr) and number of simulations (N) all have to be numerical!")
+                        info = "The parameters (n, mu, sigma, tr, N) all have to be numerical!")
   testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr), length(N)) != 1), 0,
-                         info = "The sample size (n), grounding true mean (mu), groudning true standard deviation (sigma),
-                         trim ratio (tr) and number of simulations (N) all have to take singlular numerical value!")
+                         info = "The parameters (n, mu, sigma, tr, N) all have to take singlular numerical value!")
   testthat::expect_true(all(n > 0, N > 0, sigma > 0),
-                        info= "The sample size (n), groudning true standard deviation (sigma) and number of simulations (N)
-                        cannot take 0 or negative numbers!")
-  testthat::expect_true(all(tr >= 0),
-                        info= "Trim ratio (tr) cannot take negative numbers!")
+                        info= "The (n, N, sigma) cannot take 0 or negative numbers!")
+  testthat::expect_true(all(tr >= 0, tr < 1),
+                        info= "'tr' cannot take negative numbers or any numbers >= 1!")
+  testthat::expect_true(N == round(N), info = "'N' has to be an integer!")
+
+
   set.seed(random.seed)
   mu_hats = c()
   for (i in 1:N) {

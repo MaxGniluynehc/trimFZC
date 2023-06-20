@@ -4,35 +4,44 @@
 \alias{tabler}
 \title{Tabler Function}
 \usage{
-tabler(n, mu, sigma, tr, N = 15000, to_kable = F, random.seed = 20230615)
+tabler(n, mu, sigma, tr, N = 15000, random.seed = 20230615)
 }
 \arguments{
-\item{n}{sample size of each simulation}
+\item{n}{(Required, numeric) sample size of each simulation}
 
-\item{mu}{The grounding true mean of the Normal distribution. A float.}
+\item{mu}{(Required, numeric) The grounding true mean of the Normal distribution.}
 
-\item{sigma}{The grounding true standard deviation of the Normal distribution.
-A float.}
+\item{sigma}{(Required, numeric) The grounding true standard deviation of the Normal distribution.}
 
-\item{tr}{The trim ratio, the proportion of the sample is chopped off as extreme values.
-A float.}
+\item{tr}{(Required, numeric) The trim ratio, the proportion of the sample is chopped off as extreme values.}
 
-\item{N}{The number of repeated simulations. An integer. Default as 15000.}
+\item{N}{(Required, numeric) The number of repeated simulations. An integer. Default as 15000.}
 
-\item{random.seed}{Set a random seed.}
+\item{random.seed}{(Optional) Set a random seed.}
+
+\item{to_kable}{(Optional, Boolean) Whether to print the tabularized statistics using the knitr::kable().
+Default as False.}
+
+\item{degits}{(Optional, numeric) Number of digits to keep in the printed kable output. Only applied when
+to_kable is TRUE. Default as 4.}
+}
+\value{
+A datafrme containing the bias, EmpVar, EmpSE and MCSE.
 }
 \description{
-`tabler()` can output a table with the bias, Empirical Variance (EmpVar) and Monte Carlo Simulation Error (MCSE)
-as the columns. The rows corresponds to the input argument (one of ['n', 'mu', 'sigma', 'tr', 'N']) that takes a
-vector with length > 1.
+`tabler()` can output a table with the bias, Empirical Variance (EmpVar), Empirical Standard Error (EmpSE)
+ and Monte Carlo Simulation Error (MCSE) as the columns. The rows corresponds to the input argument
+ (one of ['n', 'mu', 'sigma', 'tr', 'N']) that takes a vector with length > 1.
 }
 \details{
-Note that only one of the input argument can take a vector with length > 1, the other input arguments have to be
-singular numbers. Otherwise, the function will explode.
+Note that only one of the input argument can take a vector with length > 1, the other input arguments
+have to be singular numbers. Otherwise, the function will explode.
 }
 \examples{
-To obtain a table of bias, EmpVar and MCSE corresponding to various trim ratios:
+To obtain a table of bias, EmpVar, EmpSE and MCSE corresponding to various trim ratios:
 tabler(50, 0, 1, seq(0,0.5, by=0.025))
 
+Print the result as kable output:
+tab = tabler(50, 0, 1, seq(0,0.5, by=0.025), to_kable=T, digits=3, random.seed=1234)
 
 }

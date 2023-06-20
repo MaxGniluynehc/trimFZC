@@ -63,18 +63,24 @@ plotter <- function(plot_type, n, mu, sigma, tr, N, random.seed=20230615, ylim=N
               info = "The sample size (n), grounding true mean (mu),
               groudning true standard deviation (sigma),
               and trim ratio (tr) all have to take numerical values!")
-  # if (! plot_type %in% c("QQplot", "ECDF")){
-  #   testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) != 1), 1,
-  #               info = "If plotting boxplot, MCSE, EmpVar or EmpSE against one parameter, then the
-  #               other 3 parameters have to be fixed as constant. So, exactly one of (n, mu, sigma, tr)
-  #               has to take a vector of length larger than 1, and the other arguments have to take
-  #               singular numerical values.")
-  # }
-  # else{
-  #   testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) == 2), 1,
-  #                info = "If plotting QQplot or ECDF, then exactly one of the (n, mu, sigma, tr)
-  #                has to take a vector of length 2.")
-  # }
+  testthat::expect_true(all(c(length(n), length(mu), length(sigma), length(tr), length(N)) > 0),
+                        info = "All of (n, mu, sigma, tr, N) cannot take empty or NULL values.")
+  testthat::expect_true(class(add_to_plot)=="logical",
+                        info="'add_to_plot' has to take logical values, i.e., TRUE or FALSE.")
+
+  if (! plot_type %in% c("QQplot")){
+    testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr)) != 1), 1,
+                info = "If plotting boxplot, MCSE, EmpVar, EmpSE or ECDF with one parameter varying,
+                then the other 3 parameters have to be fixed as constant. So, exactly one of
+                (n, mu, sigma, tr) has to take a vector of length larger than 1, and the other
+                arguments have to take singular numerical values.")
+  }
+  else{
+    testthat::expect_true(all(sum(c(length(n), length(mu), length(sigma), length(tr)) >2)==0,
+                              sum(c(length(n), length(mu), length(sigma), length(tr))==2)<=1),
+                 info = "If plotting QQplot, then at most one of the (n, mu, sigma, tr)
+                 can take a vector of length no greater than 2.")
+  }
 
   # Now the function
   # To plot the boxplot, MCSE, EmpVar and EmpSE
