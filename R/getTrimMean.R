@@ -28,12 +28,12 @@ getTrimMean <- function(n=1000, N=5000, mu=0, sigma=1, tr=0, random.seed=2023061
   testthat::expect_true(all(is.numeric(n), is.numeric(mu), is.numeric(sigma), is.numeric(tr), is.numeric(N)),
                         info = "The parameters (n, mu, sigma, tr, N) all have to be numerical!")
   testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr), length(N)) != 1), 0,
-                         info = "The parameters (n, mu, sigma, tr, N) all have to take singlular numerical value!")
+                         info = "The parameters (n, mu, sigma, tr, N) all have to take singular numerical value!")
   testthat::expect_true(all(n > 0, N > 0, sigma > 0),
-                        info= "The (n, N, sigma) cannot take 0 or negative numbers!")
+                        info= "The parameters (n, N, sigma) cannot take 0 or negative numbers!")
   testthat::expect_true(all(tr >= 0, tr < 1),
-                        info= "'tr' cannot take negative numbers or any numbers >= 1!")
-  testthat::expect_true(N == round(N), info = "'N' has to be an integer!")
+                        info= "The parameter 'tr' cannot take negative numbers or any numbers >= 1!")
+  testthat::expect_true(all(N == round(N), n == round(n)), info = "The parameters (N, n) have to be integers!")
 
 
   set.seed(random.seed)

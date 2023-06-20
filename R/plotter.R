@@ -20,6 +20,9 @@
 #' @param pchar (Optional, numeric) Only applied when add_to_plot == TRUE. Defines the point character on the line.
 #' Default as NULL.
 #'
+#' @importFrom graphics abline boxplot legend lines points
+#' @importFrom stats ecdf qqline qqnorm qqplot rnorm var
+#'
 #' @examples
 #' # Suppose we want to analyze on the effect of sample size on the efficiency of the
 #' # trimmed mean estimates.
@@ -48,7 +51,6 @@
 #' # Plot Empirical Cumulative Distribution Function (ECDF)
 #' plotter("QQplot", n=500, mu, sigma, tr=c(0.2, 0), N)
 #'
-#' For more advanced examples, please see \code{vignette("vignette")}
 #'
 #' @export
 
@@ -58,7 +60,6 @@ plotter <- function(plot_type, n, mu, sigma, tr, N, random.seed=20230615, ylim=N
   testthat::expect_true(plot_type %in% c("boxplot", "MCSE", "EmpVar", "EmpSE", "QQplot", "ECDF"),
               info = "Wrong plot_type! plot_type has to be one of
               ['boxplot', 'MCSE', 'EmpVar', 'EmpSE', 'QQplot', 'ECDF']. ")
-  testthat::expect_true(N == round(N), info = "The number of simulations (N) has to be an integer!")
   testthat::expect_true(all(is.numeric(n), is.numeric(mu), is.numeric(sigma), is.numeric(tr)),
               info = "The sample size (n), grounding true mean (mu),
               groudning true standard deviation (sigma),

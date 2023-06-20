@@ -80,6 +80,5 @@ plotter("QQplot", n=500, mu, sigma, tr=c(0.2, 0), N)
 # Plot Empirical Cumulative Distribution Function (ECDF)
 plotter("QQplot", n=500, mu, sigma, tr=c(0.2, 0), N)
 
-For more advanced examples, please see \code{vignette("vignette")}
 
 }

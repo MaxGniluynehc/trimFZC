@@ -20,11 +20,11 @@
 #' @param random.seed (Optional) Set a random seed.
 #'
 #' @examples
-#' To obtain a table of bias, EmpVar, EmpSE and MCSE corresponding to various trim ratios:
-#' tabler(50, 0, 1, seq(0,0.5, by=0.025))
+#' # To obtain a table of bias, EmpVar, EmpSE and MCSE corresponding to various trim ratios:
+#' tab = tabler(50, 0, 1, seq(0,0.5, by=0.025))
 #'
-#' Print the result as kable output:
-#' tab = tabler(50, 0, 1, seq(0,0.5, by=0.025), to_kable=T, digits=3, random.seed=1234)
+#' # Print the result as kable output:
+#' knitr::kable(tab, digits=4)
 #'
 #' @returns A datafrme containing the bias, EmpVar, EmpSE and MCSE.
 #'
@@ -32,9 +32,14 @@
 
 
 tabler <- function(n ,mu, sigma, tr, N=15000, random.seed = 20230615) {
-  testthat::expect_true(sum(c(length(n), length(mu), length(sigma), length(tr)) > 1) <= 1,
+  testthat::expect_true(sum(c(length(n), length(mu), length(sigma), length(tr), length(N)) > 1) <= 1,
                          info = "At most one of (n, mu, sigma, tr) can take a vector of length
                          larger than 1.")
+  testthat::expect_true(N==round(N), info="The parameter N has to take an integer!")
+  # testthat::expect_equal(sum(c(length(n), length(mu), length(sigma), length(tr), length(N)) != 1), 1,
+  #                        info = "We only allow one parameter varying at a time, with the other 3 parameters
+  #                        fixed as constant. So, exactly one of (n, N, mu, sigma, tr) has to take a vector of length
+  #                        larger than 1, and the other arguments have to take singular numerical values.")
 
   params = cbind(n, mu, sigma, tr)
   pml = apply(params, 2, function(x){return(length(unique(x)))})

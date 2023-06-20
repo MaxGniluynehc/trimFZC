@@ -38,10 +38,10 @@ Note that only one of the input argument can take a vector with length > 1, the 
 have to be singular numbers. Otherwise, the function will explode.
 }
 \examples{
-To obtain a table of bias, EmpVar, EmpSE and MCSE corresponding to various trim ratios:
-tabler(50, 0, 1, seq(0,0.5, by=0.025))
+# To obtain a table of bias, EmpVar, EmpSE and MCSE corresponding to various trim ratios:
+tab = tabler(50, 0, 1, seq(0,0.5, by=0.025))
 
-Print the result as kable output:
-tab = tabler(50, 0, 1, seq(0,0.5, by=0.025), to_kable=T, digits=3, random.seed=1234)
+# Print the result as kable output:
+knitr::kable(tab, digits=4)
 
 }
