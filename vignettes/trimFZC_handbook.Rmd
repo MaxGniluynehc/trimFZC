@@ -27,7 +27,7 @@ editor_options:
 ---
 
 ```{r include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 ```
 
 In this document, we illustrate the main features of the `trimFZC` R package through examples. The main goal of this package is to perform analysis on trimmed mean estimate of normal distribution. 
@@ -46,7 +46,7 @@ The main function `getTrimMean()` computes the trimmed sample means of `N` simul
 
 
 The `trimFZC` package has the following architecture: 
-```{r}
+```{r echo=FALSE}
 PATH = "/Users/maxchen/Documents/Study/STA/STAT900/Coding/show_dir_tree"
 fs::dir_tree(path=PATH, type="any")
 ```
