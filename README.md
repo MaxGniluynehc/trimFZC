@@ -11,5 +11,5 @@ install_github("MaxGniluynehc/trimFZC",
                build_vignettes = TRUE)
 library(trimFZC)
 ```
-
+For detailed usages and testings of this pacakge, please either `vignette("trimFZC-handbook")` or knit [trimFZC-handbook.Rmd](https://github.com/MaxGniluynehc/trimFZC/blob/master/vignettes/trimFZC_handbook.Rmd) in RStudio. 
 
